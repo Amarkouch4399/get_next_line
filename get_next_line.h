@@ -6,7 +6,7 @@
 /*   By: ouamarko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:01:53 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/05/22 20:55:24 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/05/27 19:24:03 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h>
+
+# ifndef buffer_size
+# define buffer_size 42
+# endif
+
 char	*get_next_line(int fd);
 
 #endif
