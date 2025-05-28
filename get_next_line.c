@@ -6,7 +6,7 @@
 /*   By: ouamarko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:06:42 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/05/27 19:31:40 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:42:11 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,41 +14,44 @@
 
 char	*ft_get_next_line(int fd)
 {
-	char	*str;
+	char	*line;
 	char	c;
-	static ssize_t sz;
+	static ssize_t count;
 	int	i;
 
 	i = 0;
-	str = malloc(sizeof(char) * buffer_size);
-	while((sz = read(fd, &c, 1) > 0))
+	line = malloc(buffer_size);
+	if (!line)
+		return (NULL);
+	while((count = read(fd, &c, 1) > 0))
 	{
-		str[i] = c;
-		if (str[sz] == '\n')
+		line[i] = c;
+		if (line[i] == '\n')
 			break ;
 		i++;
 	}
-	 if (sz <= 0 && i == 0)
+	 if (count <= 0 && i == 0)
 	 {
-		 free(str);
+		 free(line);
 		 return (NULL);
 	 }
-	str[i] = '\0';
-	return (str);
+	line[i] = '\0';
+	return (line);
 }
 int	main()
 {
 	int	fd;
-	char	*str ="oussama\namarkouch";
+	char	*line;
 
-	fd = open("test.txt", O_CREAT | O_WRONLY);
-	while ((str = ft_get_next_line(fd)) != NULL)
-	{
-		printf("%s", str);
-		free(str);
-	}
+	fd = open("test.txt", O_RDONLY);
 	if (fd < 0)
 		return(-1);
+	while ((line = ft_get_next_line(fd)) != NULL)
+	{
+		printf("%s", line);
+		printf("\n");
+		free(line);
+	}
 	close(fd);
 	return (0);
 }
