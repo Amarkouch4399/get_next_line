@@ -6,38 +6,51 @@
 /*   By: ouamarko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:06:42 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/05/28 15:42:11 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/05/28 20:16:48 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_get_next_line(int fd)
+char	*ft_fill_line_buffer(int fd, char *left_c, char *line)
 {
-	char	*line;
-	char	c;
-	static ssize_t count;
 	int	i;
+	ssize_t	count;
+	char	temp[buffer_size];
+	char	c;
 
 	i = 0;
-	line = malloc(buffer_size);
-	if (!line)
-		return (NULL);
-	while((count = read(fd, &c, 1) > 0))
+	while((count = read(fd, temp, buffer_size)) > 0)
 	{
-		line[i] = c;
-		if (line[i] == '\n')
+		if (temp[i] == '\n')
+			while (i < buffer_size)
+			{
+				temp[i] = line[i];
+				i++;
+			}
 			break ;
 		i++;
 	}
-	 if (count <= 0 && i == 0)
+	return (left_c);
+}
+
+char	*ft_get_next_line(int fd)
+{
+	char	*line;
+	ssize_t count;
+
+	line = malloc(buffer_size);
+	if (!line)
+		return (NULL);
+	ft_fill_line_buffer(fd, NULL, line);	
+	if (count <= 0)
 	 {
 		 free(line);
 		 return (NULL);
 	 }
-	line[i] = '\0';
 	return (line);
 }
+
 int	main()
 {
 	int	fd;

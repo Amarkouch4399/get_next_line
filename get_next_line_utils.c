@@ -6,9 +6,11 @@
 /*   By: ouamarko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 17:18:46 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/05/28 14:48:59 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:43:54 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "get_next_line.h"
 
 char	*ft_strchr(const char *s, int c)
 {
