@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ouamarko <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ouamarko <ouamarko@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/26 17:18:46 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/05/28 15:43:54 by ouamarko         ###   ########.fr       */
+/*   Created: 2025/06/03 15:57:49 by ouamarko          #+#    #+#             */
+/*   Updated: 2025/06/03 18:09:06 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "get_next_line.h"
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(char *s, int c)
 {
 	int	i;
 
@@ -28,7 +27,7 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-char	*ft_strdup(const char *src)
+char	*ft_strdup(char *src)
 {
 	char	*copy;
 	int		i;
@@ -49,7 +48,7 @@ char	*ft_strdup(const char *src)
 	return (copy);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*concat;
 	int		i;

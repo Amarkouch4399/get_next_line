@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ouamarko <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ouamarko <ouamarko@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 10:06:42 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/05/28 20:16:48 by ouamarko         ###   ########.fr       */
+/*   Created: 2025/06/03 15:56:48 by ouamarko          #+#    #+#             */
+/*   Updated: 2025/06/03 19:14:40 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,19 @@ char	*ft_fill_line_buffer(int fd, char *left_c, char *line)
 {
 	int	i;
 	ssize_t	count;
-	char	temp[buffer_size];
-	char	c;
+	char	temp[buffer_size + 1];
 
 	i = 0;
-	while((count = read(fd, temp, buffer_size)) > 0)
+	while (count = read(fd,temp, buffer_size) > 0)
 	{
-		if (temp[i] == '\n')
-			while (i < buffer_size)
-			{
-				temp[i] = line[i];
-				i++;
-			}
-			break ;
+		temp[buffer_size + 1] = '\0';
+		if (!left_c)
+			left_c = ft_strdup(temp);
 		i++;
+		printf("%s", left_c);
+		printf("\n");
+		if (temp[i] == '\n')
+			break ;
 	}
 	return (left_c);
 }
@@ -61,7 +60,7 @@ int	main()
 		return(-1);
 	while ((line = ft_get_next_line(fd)) != NULL)
 	{
-		printf("%s", line);
+		printf("%s", ft_get_next_line(fd));
 		printf("\n");
 		free(line);
 	}
