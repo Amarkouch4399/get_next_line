@@ -12,25 +12,22 @@
 
 #include "get_next_line.h"
 
-char	*ft_fill_line_buffer(int fd, char *left_c, char *line)
+char	*ft_fill_line(int fd, char *left_c, char *line)
 {
 	int	i;
 	ssize_t	count;
 	char	temp[buffer_size + 1];
 
-	i = 0;
-	while (count = read(fd,temp, buffer_size) > 0)
-	{
-		temp[buffer_size + 1] = '\0';
-		if (!left_c)
-			left_c = ft_strdup(temp);
-		i++;
-		printf("%s", left_c);
-		printf("\n");
-		if (temp[i] == '\n')
-			break ;
-	}
-	return (left_c);
+	temp[buffer_size + 1] = '\0';
+	if (left_c)
+		left_c = ft_strdup(temp);
+	i++;
+	 while (ft_strchr(line, '\n') )
+	 {
+		 count = read(fd, temp, buffer_size);
+		printf("ligne %s", temp);
+	 }
+	return (line);
 }
 
 char	*ft_get_next_line(int fd)
@@ -41,7 +38,7 @@ char	*ft_get_next_line(int fd)
 	line = malloc(buffer_size);
 	if (!line)
 		return (NULL);
-	ft_fill_line_buffer(fd, NULL, line);	
+	line = ft_fill_line(fd, NULL, line);	
 	if (count <= 0)
 	 {
 		 free(line);
@@ -60,7 +57,7 @@ int	main()
 		return(-1);
 	while ((line = ft_get_next_line(fd)) != NULL)
 	{
-		printf("%s", ft_get_next_line(fd));
+		printf("ligne %s", ft_get_next_line(fd));
 		printf("\n");
 		free(line);
 	}
