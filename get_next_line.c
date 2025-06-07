@@ -6,7 +6,7 @@
 /*   By: ouamarko <ouamarko@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 15:56:48 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/06/06 18:53:25 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/06/07 19:40:29 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,18 @@ char	*ft_fill_line(int fd, char *left_c, char *line)
 {
 	int	i;
 	ssize_t	count;
-	char	*buffer[buffer_size + 1];
+	char	buffer[buffer_size + 1];	
+	char	*stock;
 
+	i = 0;
+	stock = malloc(buffer_size + 1);
 	count = read(fd, buffer, buffer_size);
 	while (count = read(fd, buffer, buffer_size) > 0)
+	{
+		buffer[buffer_size + 1] = '\0';
+		stock[i] = buffer[i];
+		i++;
+	}
 	return (line);
 }
 
@@ -48,10 +56,11 @@ int	main()
 	fd = open("test.txt", O_RDONLY);
 	if (fd < 0)
 		return(-1);
-	ft_get_next_line(fd);
-	printf("ligne %s", ft_get_next_line(fd));
-	printf("\n");
-
+	while ((line = ft_get_next_line(fd)) > 0)
+    {
+        printf("%s", line);  
+        free(line);         
+    }
 	close(fd);
 	return (0);
 }
