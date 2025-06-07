@@ -12,22 +12,29 @@
 
 #include "get_next_line.h"
 
-char	*ft_fill_line(int fd, char *left_c, char *line)
+char	*ft_fill_line(int fd, char *line)
 {
-	int	i;
 	ssize_t	count;
-	char	buffer[buffer_size + 1];	
-	char	*stock;
+	char	buffer[buffer_size + 1];
+	int	i;
+	int	j;
 
 	i = 0;
-	stock = malloc(buffer_size + 1);
-	count = read(fd, buffer, buffer_size);
-	while (count = read(fd, buffer, buffer_size) > 0)
+	line = malloc(buffer_size + 1);
+	if (!line)
+		return (NULL);
+	while ((count = read(fd, buffer, buffer_size)) > 0)
 	{
-		buffer[buffer_size + 1] = '\0';
-		stock[i] = buffer[i];
-		i++;
+		j = 0;
+		buffer[count] = '\0';
+		while(buffer[i] != '\n' && j < count)
+		{
+			line[i] = buffer[j];
+			i++;
+			j++;
+		}
 	}
+	line[i] = '\0';
 	return (line);
 }
 
@@ -35,16 +42,9 @@ char	*ft_get_next_line(int fd)
 {
 	char	*line;
 	ssize_t count;
+	char	buffer[buffer_size + 1];	
 
-	line = malloc(buffer_size);
-	if (!line)
-		return (NULL);
-	line = ft_fill_line(fd, NULL, line);	
-	if (count <= 0)
-	 {
-		 free(line);
-		 return (NULL);
-	 }
+	line = ft_fill_line(fd, line);
 	return (line);
 }
 
@@ -56,11 +56,11 @@ int	main()
 	fd = open("test.txt", O_RDONLY);
 	if (fd < 0)
 		return(-1);
-	while ((line = ft_get_next_line(fd)) > 0)
-    {
-        printf("%s", line);  
-        free(line);         
-    }
+	while ((line = ft_get_next_line(fd)) != NULL)
+    	{
+        	printf("%s", line);
+        	free(line);
+    	}
 	close(fd);
 	return (0);
 }
