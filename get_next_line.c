@@ -6,7 +6,7 @@
 /*   By: ouamarko <ouamarko@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 15:56:48 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/06/08 15:25:55 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/06/08 16:33:25 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,28 @@ char	*ft_fill_line(int fd, char *line)
 	char	buffer[buffer_size + 1];
 	int	i;
 	int	j;
-	static char	*stock;
+	char	*stock;
 	
 	i = 0;
+	j = 0;
 	line = malloc(buffer_size + 1);
 	if (!line)
 		return (NULL);
 	while ((count = read(fd, buffer, buffer_size)) > 0)
 	{
 		buffer[count] = '\0';
-		j = 0;
-		while(buffer[j] != '\n' && j < count)
+		while(buffer[j] != '\n')
 		{
 			line[i] = buffer[j];
 			i++;
 			j++;
 		}
+		j = 0;
 		line[i] = '\0';
 		stock = malloc(count);
-		while (i < count)
+		while (j < count)
 		{
-			stock[i] = buffer[i];
+			stock[j] = buffer[i];
 			i++;	
 			j++;
 		}
