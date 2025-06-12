@@ -6,7 +6,7 @@
 /*   By: ouamarko <ouamarko@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 15:57:49 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/06/12 13:10:32 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/06/12 19:53:19 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -85,30 +85,4 @@ size_t	ft_strlen(const char *s)
 	while (s[i] != '\0')
 		i++;
 	return (i);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	size_t	i;
-	size_t	tab_len;
-	char	*tab;
-
-	i = 0;
-	if (!s)
-		return (NULL);
-	tab_len = ft_strlen(s);
-	if (len > tab_len - start)
-		len = tab_len - start;
-	if (start >= tab_len)
-		return (ft_strdup(""));
-	tab = malloc(sizeof(char) * (len + 1));
-	if (!tab)
-		return (NULL);
-	while (i < len && s[start + i])
-	{
-		tab[i] = s[start + i];
-		i++;
-	}
-	tab[i] = '\0';
-	return (tab);
 }

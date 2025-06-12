@@ -6,7 +6,7 @@
 /*   By: ouamarko <ouamarko@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 15:56:48 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/06/12 13:14:33 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/06/12 20:24:23 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*ft_fill_line(int fd, char *line)
 			line = ft_strjoin(stock, buffer);
 			stock = ft_strdup(line);
 		}
-		if (ft_strchr(buffer, '\n'))
+		if (ft_strchr(buffer, '\n') && line)
 		{
 			left_c = ft_rest(line);
 			break ;

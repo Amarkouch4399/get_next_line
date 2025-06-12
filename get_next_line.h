@@ -6,7 +6,7 @@
 /*   By: ouamarko <ouamarko@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 15:57:07 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/06/12 11:59:48 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/06/12 19:58:13 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,17 @@
 # include <fcntl.h>
 # include <stdio.h>
 
-# ifndef buffer_size
-# define buffer_size 5
-# endif
+#ifndef buffer_size
+#define buffer_size 42
+#endif
 
 char	*get_next_line(int fd);
 char	*ft_strchr(char *s, int c);
 char	*ft_strdup(char *src);
 char	*ft_strjoin(char *s1, char *s2);
 size_t	ft_strlen(char const *s);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_extract_line(char *line);
+char	*ft_rest(char *line);
+char	*ft_fill_line(int fd, char *line);
 
 #endif
