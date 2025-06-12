@@ -6,7 +6,7 @@
 /*   By: ouamarko <ouamarko@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 15:57:07 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/06/08 14:29:24 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:59:48 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*get_next_line(int fd);
 char	*ft_strchr(char *s, int c);
 char	*ft_strdup(char *src);
 char	*ft_strjoin(char *s1, char *s2);
-size_t	ft_strlen(const char *s);
+size_t	ft_strlen(char const *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 #endif

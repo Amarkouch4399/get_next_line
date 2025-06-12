@@ -6,7 +6,7 @@
 /*   By: ouamarko <ouamarko@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 15:56:48 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/06/11 16:43:56 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/06/12 13:14:33 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ char	*ft_extract_line(char *line)
 	char	*final_line;
 
 	i = 0;
-	while (line[i] != '\n')
-	{
-		i++;
-	}
+	i = ft_strlen(line);
 	final_line = malloc(i);
 	i = 0;
 	while (line[i] != '\n')
@@ -32,23 +29,61 @@ char	*ft_extract_line(char *line)
 	return (final_line);
 }
 
+char	*ft_rest(char *line)
+{
+	int	i;
+	int	j;
+	char	*rest;
+	
+	i = 0;
+	j = 0;
+	while (line[i] != '\n')
+		i++;
+	j = i;
+	while (line[i] != '\0')
+		i++;
+	rest = malloc(i - j + 1);
+	i = 0;
+	while (line[j] != '\0')
+	{
+		rest[i] = line[j + 1];
+		i++;
+		j++;
+	}
+	rest[i] = '\0';
+	return (rest);
+}
+
 char	*ft_fill_line(int fd, char *line)
 {
 	ssize_t	count;
-	char	buffer[buffer_size + 1];
-	char	*stock = NULL;
+	char	buffer[buffer_size];
+	char	*stock;
+	static char	*left_c;
 	
+	stock = NULL;
 	while ((count = read(fd, buffer, buffer_size)) > 0)
 	{
-		buffer[count + 1] = '\0';
+		buffer[count] = '\0';
+		if (left_c)
+		{
+			stock = ft_strdup(left_c);
+			left_c = NULL;
+		}
 		if (!stock)
 			stock = ft_strdup(buffer);
 		else
+		{
 			line = ft_strjoin(stock, buffer);
+			stock = ft_strdup(line);
+		}
 		if (ft_strchr(buffer, '\n'))
+		{
+			left_c = ft_rest(line);
 			break ;
+		}
 	}
-	return (ft_extract_line(line));
+	return (line);
 }
 
 char	*ft_get_next_line(int fd)
@@ -57,6 +92,7 @@ char	*ft_get_next_line(int fd)
 
 	line = NULL;
 	line = ft_fill_line(fd, line);
+	line = ft_extract_line(line);
 	return (line);
 }
 
@@ -72,6 +108,7 @@ int	main()
 	while ((line = ft_get_next_line(fd)) != NULL)
     	{
         	printf("%s", line);
+		free(line);
     	}
 	close(fd);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: ouamarko <ouamarko@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 15:57:49 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/06/11 16:10:00 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/06/12 13:10:32 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -56,8 +56,10 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	if (!s1 || !s2)
-		return NULL;
+	if (!s1)
+		s1 = ft_strdup("");
+	if (!s2)	
+		return (NULL);
 	concat = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!concat)
 		return (NULL);
