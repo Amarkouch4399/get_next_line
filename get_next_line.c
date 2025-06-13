@@ -6,7 +6,7 @@
 /*   By: ouamarko <ouamarko@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 15:56:48 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/06/12 20:24:23 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/06/13 13:01:34 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_extract_line(char *line)
 {
-	int	i;
+	int		i;
 	char	*final_line;
 
 	i = 0;
@@ -31,10 +31,10 @@ char	*ft_extract_line(char *line)
 
 char	*ft_rest(char *line)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	*rest;
-	
+
 	i = 0;
 	j = 0;
 	while (line[i] != '\n')
@@ -53,17 +53,39 @@ char	*ft_rest(char *line)
 	rest[i] = '\0';
 	return (rest);
 }
+/*
+char	*ft_read_all_if_small(int fd)
+{
+	char	buffer[buffer_size];
+	ssize_t	count;
 
-char	*ft_fill_line(int fd, char *line)
+	if (fd < 0 || buffer_size <= 0)
+		return (NULL);
+
+	buffer = malloc(buffer_size + 1);
+	if (!buffer)
+		return (NULL);
+
+	count = read(fd, buffer, buffer_size);
+	if (count <= 0)
+	{
+		free(buffer);
+		return (NULL);
+	}
+	buffer[count] = '\0';
+	return (buffer);
+}
+*/
+char	*ft_fill_line(int fd, char *line, char *stock)
 {
 	ssize_t	count;
 	char	buffer[buffer_size];
-	char	*stock;
 	static char	*left_c;
 	
-	stock = NULL;
-	while ((count = read(fd, buffer, buffer_size)) > 0)
+	count = 1;
+	while (count > 0)		
 	{
+		count = read(fd, buffer, buffer_size);
 		buffer[count] = '\0';
 		if (left_c)
 		{
@@ -91,11 +113,10 @@ char	*ft_get_next_line(int fd)
 	char	*line;
 
 	line = NULL;
-	line = ft_fill_line(fd, line);
+	line = ft_fill_line(fd, line, NULL);
 	line = ft_extract_line(line);
 	return (line);
 }
-
 int	main()
 {
 	int	fd;
