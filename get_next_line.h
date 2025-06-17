@@ -19,7 +19,7 @@
 # include <stdio.h>
 
 #ifndef buffer_size
-#define buffer_size 5
+#define buffer_size 100000
 #endif
 
 char	*get_next_line(int fd);
@@ -30,6 +30,6 @@ size_t	ft_strlen(char const *s);
 char	*ft_extract_line(char *line);
 char	*ft_rest(char *line);
 char	*ft_fill_line(int fd, char *line, char *stock);
-char	*ft_read_all_if_small(int fd);
+char	*ft_read_and_join(int fd, char *stock);
 
 #endif

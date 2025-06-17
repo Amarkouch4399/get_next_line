@@ -18,14 +18,20 @@ char	*ft_extract_line(char *line)
 	char	*final_line;
 
 	i = 0;
-	i = ft_strlen(line);
-	final_line = malloc(i);
+	if (!line)
+		return (NULL);
+	while (line[i] != '\n' && line[i] != '\0')
+		i++;
+	final_line = malloc(i + 1);
+	if (!final_line)
+		return (NULL);
 	i = 0;
-	while (line[i] != '\n')
+	while (line[i] != '\n' && line[i] != '\0')
 	{
 		final_line[i] = line[i];
 		i++;
 	}
+	final_line[i] = '\0';
 	return (final_line);
 }
 
@@ -37,12 +43,16 @@ char	*ft_rest(char *line)
 
 	i = 0;
 	j = 0;
-	while (line[i] != '\n')
+	if (!line)
+		return (NULL);
+	while (line[i] != '\n' && line[i])
 		i++;
-	j = i;
-	while (line[i] != '\0')
-		i++;
-	rest = malloc(i - j + 1);
+	if (!line[i])
+		return (NULL);
+	j = i + 1;
+	rest = malloc(ft_strlen(line) - i);
+	if (!rest)
+		return (NULL);
 	i = 0;
 	while (line[j] != '\0')
 	{
@@ -53,58 +63,49 @@ char	*ft_rest(char *line)
 	rest[i] = '\0';
 	return (rest);
 }
-/*
-char	*ft_read_all_if_small(int fd)
+char	*ft_read_and_join(int fd, char *stock)
 {
 	char	buffer[buffer_size];
 	ssize_t	count;
+	char	*tmp;
 
-	if (fd < 0 || buffer_size <= 0)
-		return (NULL);
-
-	buffer = malloc(buffer_size + 1);
-	if (!buffer)
-		return (NULL);
-
-	count = read(fd, buffer, buffer_size);
-	if (count <= 0)
-	{
-		free(buffer);
-		return (NULL);
-	}
-	buffer[count] = '\0';
-	return (buffer);
-}
-*/
-char	*ft_fill_line(int fd, char *line, char *stock)
-{
-	ssize_t	count;
-	char	buffer[buffer_size];
-	static char	*left_c;
-	
 	count = 1;
-	while (count > 0)		
+	while (count > 0)
 	{
 		count = read(fd, buffer, buffer_size);
+		if (count <= 0)
+			break ;
 		buffer[count] = '\0';
-		if (left_c)
-		{
-			stock = ft_strdup(left_c);
-			left_c = NULL;
-		}
 		if (!stock)
-			stock = ft_strdup(buffer);
+			tmp = ft_strdup(buffer);
 		else
 		{
-			line = ft_strjoin(stock, buffer);
-			stock = ft_strdup(line);
+			tmp = ft_strjoin(stock, buffer);
+			free(stock);
 		}
-		if (ft_strchr(buffer, '\n') && line)
-		{
-			left_c = ft_rest(line);
+		stock = tmp;
+		if (ft_strchr(buffer, '\n'))
 			break ;
-		}
 	}
+	return (stock);
+}
+char	*ft_fill_line(int fd, char *line, char *stock)
+{
+	static char	*left_c;
+
+	if (left_c)
+	{
+		stock = ft_strdup(left_c);
+		free(left_c);
+		left_c = NULL;
+	}
+	stock = ft_read_and_join(fd, stock);
+	if (stock && ft_strchr(stock, '\n'))
+		left_c = ft_rest(stock);
+	if (stock)
+		line = ft_strdup(stock);
+	else
+		line = NULL;
 	return (line);
 }
 
@@ -113,24 +114,31 @@ char	*ft_get_next_line(int fd)
 	char	*line;
 
 	line = NULL;
+	if (fd < 0 || buffer_size <= 0)
+		return (NULL);
 	line = ft_fill_line(fd, line, NULL);
 	line = ft_extract_line(line);
 	return (line);
 }
 int	main()
 {
-	int	fd;
+	int		fd;
 	char	*line;
 
 	fd = open("test.txt", O_RDONLY);
 	if (fd < 0)
-		return(-1);
-	line = NULL;
-	while ((line = ft_get_next_line(fd)) != NULL)
-    	{
-        	printf("%s", line);
+	{
+		perror("Erreur ouverture fichier");
+		return (1);
+	}
+	while (1)
+	{
+		line = ft_get_next_line(fd);
+		if (!line)
+			break ;
+		printf("%s\n", line);
 		free(line);
-    	}
+	}
 	close(fd);
 	return (0);
 }
