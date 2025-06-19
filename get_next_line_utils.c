@@ -6,7 +6,7 @@
 /*   By: ouamarko <ouamarko@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 15:57:49 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/06/12 19:53:19 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:11:17 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -16,6 +16,8 @@ char	*ft_strchr(char *s, int c)
 	int	i;
 
 	i = 0;
+	if(!s)
+		return (NULL);
 	while (s[i])
 	{
 		if (s[i] == (char)c)
@@ -74,7 +76,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		j++;
 	}
 	concat[i + j] = '\0';
-	return (concat);
+	return (ft_free(&s1), concat);
 }
 
 size_t	ft_strlen(const char *s)
@@ -85,4 +87,10 @@ size_t	ft_strlen(const char *s)
 	while (s[i] != '\0')
 		i++;
 	return (i);
+}
+
+void	ft_free(char **s)
+{
+	free(*s);
+	*s = NULL;
 }

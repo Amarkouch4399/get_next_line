@@ -6,7 +6,7 @@
 /*   By: ouamarko <ouamarko@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 15:56:48 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/06/13 13:01:34 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:19:35 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*ft_rest(char *line)
 	i = 0;
 	while (line[j] != '\0')
 	{
-		rest[i] = line[j + 1];
+		rest[i] = line[j];
 		i++;
 		j++;
 	}
@@ -79,11 +79,9 @@ char	*ft_read_and_join(int fd, char *stock)
 		if (!stock)
 			tmp = ft_strdup(buffer);
 		else
-		{
 			tmp = ft_strjoin(stock, buffer);
-			free(stock);
-		}
 		stock = tmp;
+		ft_free(&tmp);
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
@@ -96,7 +94,7 @@ char	*ft_fill_line(int fd, char *line, char *stock)
 	if (left_c)
 	{
 		stock = ft_strdup(left_c);
-		free(left_c);
+		ft_free(&left_c);
 		left_c = NULL;
 	}
 	stock = ft_read_and_join(fd, stock);
@@ -106,7 +104,7 @@ char	*ft_fill_line(int fd, char *line, char *stock)
 		line = ft_strdup(stock);
 	else
 		line = NULL;
-	return (line);
+	return (ft_free(&stock), line);
 }
 
 char	*ft_get_next_line(int fd)
@@ -137,8 +135,9 @@ int	main()
 		if (!line)
 			break ;
 		printf("%s\n", line);
-		free(line);
+		ft_free(&line);
 	}
+	ft_free(&line);
 	close(fd);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ouamarko <ouamarko@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 15:57:07 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/06/13 11:52:41 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:59:05 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,5 @@ char	*ft_extract_line(char *line);
 char	*ft_rest(char *line);
 char	*ft_fill_line(int fd, char *line, char *stock);
 char	*ft_read_and_join(int fd, char *stock);
-
+void	ft_free(char **s);
 #endif
