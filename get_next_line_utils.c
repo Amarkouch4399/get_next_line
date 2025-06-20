@@ -6,7 +6,7 @@
 /*   By: ouamarko <ouamarko@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 15:57:49 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/06/17 14:11:17 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/06/20 20:53:14 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -37,7 +37,7 @@ char	*ft_strdup(char *src)
 	i = 0;
 	while (src[i])
 		i++;
-	copy = malloc(sizeof(char) * (i + 1));
+	copy = malloc(sizeof(char) * i + 1);
 	if (!(copy))
 		return (NULL);
 	i = 0;
@@ -95,7 +95,7 @@ size_t	ft_strlen(const char *s)
 
 void	ft_free(char **s)
 {
-	if (s && *s)
+	if (*s)
 	{
 		free(*s);
 		*s = NULL;

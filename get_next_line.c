@@ -6,7 +6,7 @@
 /*   By: ouamarko <ouamarko@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 15:56:48 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/06/17 14:19:35 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/06/20 20:52:11 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ char	*ft_read_and_join(int fd, char *stock)
 			tmp = ft_strdup(buffer);
 		else
 			tmp = ft_strjoin(stock, buffer);
-		if (stock)
-			free(stock);
 		stock = tmp;
 		if (ft_strchr(buffer, '\n'))
 			break ;
@@ -96,9 +94,8 @@ char	*ft_fill_line(int fd, char *line, char *stock)
 
 	if (left_c)
 	{
-		stock = ft_strdup(left_c);
+		stock = left_c;
 		ft_free(&left_c);
-		left_c = NULL;
 	}
 	stock = ft_read_and_join(fd, stock);
 	if (stock && ft_strchr(stock, '\n'))
@@ -107,7 +104,6 @@ char	*ft_fill_line(int fd, char *line, char *stock)
 		line = ft_strdup(stock);
 	else
 		line = NULL;
-	ft_free(&stock);
 	return (line);
 }
 
@@ -126,6 +122,8 @@ int	main()
 {
 	int		fd;
 	char	*line;
+	int	i;
+	i = 0;
 
 	fd = open("test.txt", O_RDONLY);
 	if (fd < 0)
@@ -139,6 +137,7 @@ int	main()
 		if (!line)
 			break ;
 		printf("%s\n", line);
+		i++;
 		ft_free(&line);
 	}
 	ft_free(&line);
