@@ -22,6 +22,8 @@ char	*ft_extract_line(char *line)
 		return (NULL);
 	while (line[i] != '\n' && line[i] != '\0')
 		i++;
+	if (line[i] == '\n')
+		i++;
 	final_line = malloc(i + 1);
 	if (!final_line)
 		return (NULL);
@@ -80,8 +82,9 @@ char	*ft_read_and_join(int fd, char *stock)
 			tmp = ft_strdup(buffer);
 		else
 			tmp = ft_strjoin(stock, buffer);
+		if (stock)
+			free(stock);
 		stock = tmp;
-		ft_free(&tmp);
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
@@ -104,7 +107,8 @@ char	*ft_fill_line(int fd, char *line, char *stock)
 		line = ft_strdup(stock);
 	else
 		line = NULL;
-	return (ft_free(&stock), line);
+	ft_free(&stock);
+	return (line);
 }
 
 char	*ft_get_next_line(int fd)

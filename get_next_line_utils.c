@@ -59,7 +59,11 @@ char	*ft_strjoin(char *s1, char *s2)
 	i = 0;
 	j = 0;
 	if (!s1)
+	{
 		s1 = ft_strdup("");
+		if (!s1)
+			return (NULL);
+	}	
 	if (!s2)	
 		return (NULL);
 	concat = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
@@ -91,6 +95,9 @@ size_t	ft_strlen(const char *s)
 
 void	ft_free(char **s)
 {
-	free(*s);
-	*s = NULL;
+	if (s && *s)
+	{
+		free(*s);
+		*s = NULL;
+	}
 }
