@@ -6,7 +6,7 @@
 /*   By: ouamarko <ouamarko@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 15:57:49 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/06/20 20:53:14 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/06/21 19:26:46 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -95,7 +95,7 @@ size_t	ft_strlen(const char *s)
 
 void	ft_free(char **s)
 {
-	if (*s)
+	if (s && *s)
 	{
 		free(*s);
 		*s = NULL;

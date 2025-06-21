@@ -6,7 +6,7 @@
 /*   By: ouamarko <ouamarko@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 15:56:48 by ouamarko          #+#    #+#             */
-/*   Updated: 2025/06/20 20:52:11 by ouamarko         ###   ########.fr       */
+/*   Updated: 2025/06/21 20:04:11 by ouamarko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 char	*ft_extract_line(char *line)
 {
 	int		i;
+	int		j;
 	char	*final_line;
 
 	i = 0;
@@ -27,8 +28,9 @@ char	*ft_extract_line(char *line)
 	final_line = malloc(i + 1);
 	if (!final_line)
 		return (NULL);
+	j = i;
 	i = 0;
-	while (line[i] != '\n' && line[i] != '\0')
+	while (i < j && line[i] != '\0')
 	{
 		final_line[i] = line[i];
 		i++;
@@ -82,6 +84,8 @@ char	*ft_read_and_join(int fd, char *stock)
 			tmp = ft_strdup(buffer);
 		else
 			tmp = ft_strjoin(stock, buffer);
+		if (stock)
+			free(stock);
 		stock = tmp;
 		if (ft_strchr(buffer, '\n'))
 			break ;
@@ -94,14 +98,17 @@ char	*ft_fill_line(int fd, char *line, char *stock)
 
 	if (left_c)
 	{
-		stock = left_c;
+		stock = ft_strdup(left_c);
 		ft_free(&left_c);
 	}
 	stock = ft_read_and_join(fd, stock);
 	if (stock && ft_strchr(stock, '\n'))
 		left_c = ft_rest(stock);
 	if (stock)
+	{
 		line = ft_strdup(stock);
+		ft_free(&stock);
+	}
 	else
 		line = NULL;
 	return (line);
@@ -122,8 +129,6 @@ int	main()
 {
 	int		fd;
 	char	*line;
-	int	i;
-	i = 0;
 
 	fd = open("test.txt", O_RDONLY);
 	if (fd < 0)
@@ -136,8 +141,7 @@ int	main()
 		line = ft_get_next_line(fd);
 		if (!line)
 			break ;
-		printf("%s\n", line);
-		i++;
+		printf("%s", line);
 		ft_free(&line);
 	}
 	ft_free(&line);
