@@ -48,33 +48,34 @@ char	*ft_rest(char *line)
 	i = 0;
 	j = 0;
 	if (!line)
-		return (NULL);
+		return (ft_free(&line), NULL);
 	while (line[i] != '\n' && line[i])
 		i++;
 	if (!line[i])
 		return (NULL);
 	j = i + 1;
-	rest = malloc(ft_strlen(line) - i);
+	if (line[j] == '\0')
+		return (NULL);
+	rest = malloc(ft_strlen(line) - j + 1);
 	if (!rest)
 		return (NULL);
 	i = 0;
 	while (line[j] != '\0')
-	{
-		rest[i] = line[j];
-		i++;
-		j++;
-	}
+		rest[i++] = line[j++];
 	rest[i] = '\0';
 	return (rest);
 }
 
 char	*ft_read_and_join(int fd, char *stock)
 {
-	char	buffer[BUFFER_SIZE];
+	char	*buffer;
 	ssize_t	count;
 	char	*tmp;
 
 	count = 1;
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (NULL);
 	while (count > 0)
 	{
 		count = read(fd, buffer, BUFFER_SIZE);
@@ -91,7 +92,7 @@ char	*ft_read_and_join(int fd, char *stock)
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
-	return (stock);
+	return (ft_free(&buffer), stock);
 }
 
 char	*get_next_line(int fd)
@@ -106,9 +107,21 @@ char	*get_next_line(int fd)
 	if (!left_c)
 		return (NULL);
 	line = ft_extract_line(left_c);
+	/*
+	 * if (!line || line[0] == '\0')
+	 * {
+	 * ft_free(&line);
+	 * return (NULL);
+	 * }
+	*/
 	new_left = ft_rest(left_c);
-	ft_free(&left_c);
-	left_c = new_left;
+	if (!new_left)
+		ft_free(&left_c);
+	else
+	{
+		ft_free(&left_c);
+		left_c = new_left;
+	}
 	return (line);
 }
 /*
