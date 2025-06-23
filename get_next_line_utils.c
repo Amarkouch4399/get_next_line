@@ -16,7 +16,7 @@ char	*ft_strchr(char *s, int c)
 	int	i;
 
 	i = 0;
-	if(!s)
+	if (!s)
 		return (NULL);
 	while (s[i])
 	{
@@ -53,18 +53,12 @@ char	*ft_strdup(char *src)
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*concat;
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	j = 0;
-	if (!s1)
-	{
-		s1 = ft_strdup("");
-		if (!s1)
-			return (NULL);
-	}	
-	if (!s2)	
+	if (!s2)
 		return (NULL);
 	concat = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!concat)

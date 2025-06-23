@@ -67,16 +67,17 @@ char	*ft_rest(char *line)
 	rest[i] = '\0';
 	return (rest);
 }
+
 char	*ft_read_and_join(int fd, char *stock)
 {
-	char	buffer[buffer_size];
+	char	buffer[BUFFER_SIZE];
 	ssize_t	count;
 	char	*tmp;
 
 	count = 1;
 	while (count > 0)
 	{
-		count = read(fd, buffer, buffer_size);
+		count = read(fd, buffer, BUFFER_SIZE);
 		if (count <= 0)
 			break ;
 		buffer[count] = '\0';
@@ -92,39 +93,25 @@ char	*ft_read_and_join(int fd, char *stock)
 	}
 	return (stock);
 }
-char	*ft_fill_line(int fd, char *line, char *stock)
+
+char	*get_next_line(int fd)
 {
 	static char	*left_c;
+	char		*line;
+	char		*new_left;
 
-	if (left_c)
-	{
-		stock = ft_strdup(left_c);
-		ft_free(&left_c);
-	}
-	stock = ft_read_and_join(fd, stock);
-	if (stock && ft_strchr(stock, '\n'))
-		left_c = ft_rest(stock);
-	if (stock)
-	{
-		line = ft_strdup(stock);
-		ft_free(&stock);
-	}
-	else
-		line = NULL;
-	return (line);
-}
-
-char	*ft_get_next_line(int fd)
-{
-	char	*line;
-
-	line = NULL;
-	if (fd < 0 || buffer_size <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	line = ft_fill_line(fd, line, NULL);
-	line = ft_extract_line(line);
+	left_c = ft_read_and_join(fd, left_c);
+	if (!left_c)
+		return (NULL);
+	line = ft_extract_line(left_c);
+	new_left = ft_rest(left_c);
+	ft_free(&left_c);
+	left_c = new_left;
 	return (line);
 }
+/*
 int	main()
 {
 	int		fd;
@@ -138,7 +125,7 @@ int	main()
 	}
 	while (1)
 	{
-		line = ft_get_next_line(fd);
+		line = get_next_line(fd);
 		if (!line)
 			break ;
 		printf("%s", line);
@@ -148,3 +135,4 @@ int	main()
 	close(fd);
 	return (0);
 }
+*/
